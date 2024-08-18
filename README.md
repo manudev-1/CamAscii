@@ -29,8 +29,3 @@ Ensure you have Python 3.6 or later installed on your system. You will also need
 git clone https://github.com/yourusername/CamAscii.git
 cd CamAscii
 ```
-    
-## Optimizations
-
-What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
-
