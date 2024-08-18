@@ -1,2 +1,3 @@
 /.venv
 /CamAscii.egg-info
+*.pyc
