@@ -14,4 +14,8 @@ setup(
             'camascii=CamAscii.__main__:main',
         ],
     },
+    install_requires=[
+        'opencv-python',
+        'pygrabber',
+    ],
 )
