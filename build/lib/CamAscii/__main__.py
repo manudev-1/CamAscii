@@ -31,9 +31,17 @@ def main():
         help='Selects the camera source by index'
     )
 
+    parser.add_argument(
+        '-f', '--file',
+        type=str,
+        default=None,
+        help='Select video to convert in ascii art'
+    )
+
     args = parser.parse_args()
 
-    video_processor = VideoProcessor(debug=args.debug, bw=args.black_white, source=args.select_source)
+    source = args.file if args.file != None else args.select_source
+    video_processor = VideoProcessor(debug=args.debug, bw=args.black_white, source=source)
 
     if args.show_source:
         video_processor.show_camera_sources()
