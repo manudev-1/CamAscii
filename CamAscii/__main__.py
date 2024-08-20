@@ -38,6 +38,12 @@ def main():
         help='Select video to convert in ascii art'
     )
 
+    parser.add_argument(
+        '-v', '--virtual-cam',
+        action='store_true',
+        help='Run virtual cam of Ascii Art'
+    )
+
     args = parser.parse_args()
 
     source = args.file if args.file != None else args.select_source
@@ -45,6 +51,8 @@ def main():
 
     if args.show_source:
         video_processor.show_camera_sources()
+    elif args.virtual_cam:
+        video_processor.run_virtual_camera()
     else:
         video_processor.process_video()
 
