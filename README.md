@@ -30,7 +30,7 @@ Please make sure you have installed Python 3.6 or later on your system. You will
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/CamAscii.git
+git clone https://github.com/manudev-1/CamAscii.git
 cd CamAscii
 pip install .
 camascii --help
