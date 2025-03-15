@@ -3,6 +3,7 @@ import os
 from pygrabber.dshow_graph import FilterGraph
 from pyvirtualcam import (PixelFormat, Camera)
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 from ..model.ASCIIConverter import ASCIIConverter
 from ..model.ImageProcessor import ImageProcessor
@@ -50,12 +51,23 @@ class VideoProcessor(cv2.VideoCapture):
 
         self.release()
 
+    from PIL import Image, ImageDraw, ImageFont
+
     def run_virtual_camera(self):
         """
-            Run virtual camera
+            Run virtual camera with monospaced font
         """
         width = 640
         height = 480
+        font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
+        max_line_length = 80
+
+        try:
+            font = ImageFont.truetype(font_path, 14) 
+        except IOError:
+            print("Font not found, using default.")
+            font = ImageFont.load_default()
+
         with Camera(width=width, height=height, fps=20, fmt=PixelFormat.RGB) as cam:
             print(f'Using virtual camera: {cam.device}')
             while True:
@@ -68,12 +80,18 @@ class VideoProcessor(cv2.VideoCapture):
                 resized_frame = self.image_processor.resize_image(gray_scale)
                 ascii_art = self.ascii_converter.image_to_ascii(resized_frame)
 
-                image = np.zeros((height, width, 3), dtype=np.uint8)
+                ascii_lines = ascii_art.splitlines()
+                ascii_lines = [line.ljust(max_line_length) for line in ascii_lines]
+
+                image_pil = Image.new("RGB", (width, height), (0, 0, 0))
+                draw = ImageDraw.Draw(image_pil)
 
                 y0, dy = 10, 15
-                for i, line in enumerate(ascii_art.splitlines()):
+                for i, line in enumerate(ascii_lines):
                     y = y0 + i * dy
-                    cv2.putText(image, line, (10, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                    draw.text((10, y), line, font=font, fill=(255, 255, 255))
+
+                image = np.array(image_pil)
 
                 cam.send(image)
                 cam.sleep_until_next_frame()

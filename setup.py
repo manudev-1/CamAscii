@@ -2,7 +2,7 @@ from setuptools import (setup, find_packages)
 
 setup(
     name="CamAscii",
-    version="0.0.1",
+    version="0.0.2",
     author="Manuele Barone",
     author_email="manuelebarone186@gmail.com",
     description="RunTime Camera to ASCII Art",
@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'opencv-python',
         'pygrabber',
-        'pyvirtualcam'
+        'pyvirtualcam',
+        'Pillow'
     ],
 )
